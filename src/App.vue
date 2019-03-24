@@ -1,17 +1,39 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <Jumbo @getPosts="getPosts"/>
+    <Table :name="name" :db="db" />
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import Table from "@/components/Table";
+import  Jumbo from "@/components/Jumbo";
 
 export default {
   name: "app",
+  data(){
+    return {
+      //url: 'http://localhost:3000/',
+      url: 'https://jsonplaceholder.typicode.com',
+      db: [],
+      name: ''
+    }
+  },
   components: {
-    HelloWorld
+    Table,
+    Jumbo
+  },
+  methods: {
+    getPosts(name){
+     fetch(`${this.url}/${name}`)
+      .then(res=>res.json())
+      .then(res=>{
+        this.db = (res instanceof Array) ? res : this.db
+        this.name = name;
+      })
+      .catch(err=>console.warn('err=>',err))
+      
+    }
   }
 };
 </script>
