@@ -1,6 +1,6 @@
 <template>
 
-<table  class="table table-striped table-bordered table-hover table-responsive">
+<table v-if="db.length" class="table table-striped table-bordered table-hover table-responsive">
   <thead>
     <tr>
       <th>#</th>
@@ -15,15 +15,15 @@
         </span>
       </th>
     </tr>
-  </thead>
-  <tbody> 
+  </thead> 
+    <transition-group name="fade" tag="tbody">
     <tr v-for="(obj, i) in db_comp" :key="i">
       <th scope="row">{{i}}</th>
       <td v-for="h in db_headers" :key="h">
          {{obj[h]}} 
       </td>
     </tr>
-  </tbody>
+    </transition-group> 
 </table>
 
 
@@ -77,7 +77,6 @@
 
 <style lang="scss" scoped>
   .table__header_click {
-    
     transition: .5s;
     cursor: pointer;
     
@@ -92,5 +91,9 @@
   .active  {
     background:  rgba(187, 158, 158, 0.342);
     color: gray; 
+  }
+
+  .fade-move {
+    transition: 1s;
   }
 </style>
